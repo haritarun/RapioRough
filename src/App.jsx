@@ -209,77 +209,99 @@
 
 
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-function App() {
-  const [rider, setRider] = useState({ lat: "", lng: "" });
-  const [driver, setDriver] = useState({ lat: "", lng: "" });
-  const [eta, setEta] = useState(null);
+// function App() {
+//   const [rider, setRider] = useState({ lat: "", lng: "" });
+//   const [driver, setDriver] = useState({ lat: "", lng: "" });
+//   const [eta, setEta] = useState(null);
 
-  const getETA = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/eta", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rider, driver }),
-      });
-      const data = await response.json();
-      setEta(data);
-    } catch (err) {
-      console.error("❌ Error:", err);
-    }
-  };
+//   const getETA = async () => {
+//     try {
+//       const response = await fetch("http://localhost:4000/eta", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ rider, driver }),
+//       });
+//       const data = await response.json();
+//       setEta(data);
+//     } catch (err) {
+//       console.error("❌ Error:", err);
+//     }
+//   };
 
+//   return (
+//     <div style={{ padding: "30px", fontFamily: "Arial" }}>
+//       <h2>🚖 ETA Calculator (OSRM)</h2>
+
+//       <h3>Rider Location</h3>
+//       <input
+//         type="text"
+//         placeholder="Latitude"
+//         value={rider.lat}
+//         onChange={(e) => setRider({ ...rider, lat: e.target.value })}
+//       />
+//       <input
+//         type="text"
+//         placeholder="Longitude"
+//         value={rider.lng}
+//         onChange={(e) => setRider({ ...rider, lng: e.target.value })}
+//       />
+
+//       <h3>Driver Location</h3>
+//       <input
+//         type="text"
+//         placeholder="Latitude"
+//         value={driver.lat}
+//         onChange={(e) => setDriver({ ...driver, lat: e.target.value })}
+//       />
+//       <input
+//         type="text"
+//         placeholder="Longitude"
+//         value={driver.lng}
+//         onChange={(e) => setDriver({ ...driver, lng: e.target.value })}
+//       />
+
+//       <br /><br />
+//       <button onClick={getETA}>Get ETA</button>
+
+//       {eta && (
+//         <div style={{ marginTop: "20px" }}>
+//           <h3>✅ Result:</h3>
+//           {eta.error ? (
+//             <p style={{ color: "red" }}>{eta.error}</p>
+//           ) : (
+//             <p>
+//               Distance: <b>{eta.distance_km} km</b> <br />
+//               Duration: <b>{eta.duration_min} min</b>
+//             </p>
+//           )}
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Register } from './components/Register';
+import Login from './components/Login';
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
+
+const App = () => {
   return (
-    <div style={{ padding: "30px", fontFamily: "Arial" }}>
-      <h2>🚖 ETA Calculator (OSRM)</h2>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
 
-      <h3>Rider Location</h3>
-      <input
-        type="text"
-        placeholder="Latitude"
-        value={rider.lat}
-        onChange={(e) => setRider({ ...rider, lat: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Longitude"
-        value={rider.lng}
-        onChange={(e) => setRider({ ...rider, lng: e.target.value })}
-      />
-
-      <h3>Driver Location</h3>
-      <input
-        type="text"
-        placeholder="Latitude"
-        value={driver.lat}
-        onChange={(e) => setDriver({ ...driver, lat: e.target.value })}
-      />
-      <input
-        type="text"
-        placeholder="Longitude"
-        value={driver.lng}
-        onChange={(e) => setDriver({ ...driver, lng: e.target.value })}
-      />
-
-      <br /><br />
-      <button onClick={getETA}>Get ETA</button>
-
-      {eta && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>✅ Result:</h3>
-          {eta.error ? (
-            <p style={{ color: "red" }}>{eta.error}</p>
-          ) : (
-            <p>
-              Distance: <b>{eta.distance_km} km</b> <br />
-              Duration: <b>{eta.duration_min} min</b>
-            </p>
-          )}
-        </div>
-      )}
-    </div>
+        {/* Example of protected route */}
+        
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
